@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const shortId = require('shortid')
 
 const shortUrlSchema = new mongoose.Schema({
-    full:{
+    full: {
         type: String,
         required: true
     },
@@ -16,6 +16,9 @@ const shortUrlSchema = new mongoose.Schema({
         required: true,
         default: 0
     }
-})
+},
+    {
+        timestamps: true,
+    })
 
 module.exports = mongoose.model('ShortUrl', shortUrlSchema)

@@ -36,23 +36,33 @@ app.get('/', async (req, res) => {
 
   const shortUrls = await ShortUrl.find()
   res.render('index', { shortUrls: shortUrls })
-
 })
 
-app.post('/createAffiliate', async (req, res) => {
-  console.log(req.body.inputurl)
-  console.log(affiliateLink(req.body.inputurl));
-
-})
+// app.post('/createAffiliate', async (req, res) => {
+//     console.log(req.body.inputurl)
+//     console.log(affiliateLink(req.body.inputurl));
+// })
 
 app.post('/shortUrls', async (req, res) => {
-
-  console.log(req.body.inputurl)
-  console.log(affiliateLink(req.body.inputurl));
-  await ShortUrl.create({ full: affiliateLink(req.body.inputurl) })
-
-  res.redirect('/')
+  let input = affiliateLink(req.body.inputurl);
+  if (input == null) {
+    return res.redirect('/')
+  } else {
+    console.log(req.body.inputurl)
+    console.log(input);
+    await ShortUrl.create({ full: input })
+    res.redirect('/')
+  }
 })
+app.get('/redirectUrl=/:shortUrl', async (req, res) => {
+  const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
+  if (shortUrl == null) return res.sendStatus(404)
+
+  shortUrl.clicks++
+  shortUrl.save()
+  res.redirect(shortUrl.full);
+})
+
 
 app.get('/:shortUrl', async (req, res) => {
   const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
