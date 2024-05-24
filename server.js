@@ -24,8 +24,6 @@ mongoose.connect("mongodb://localhost:/urls",{ useNewUrlParser:true, useUnifiedT
 		console.log("Error to Stablish Connection");
 	}
 });
-// mongoose.connect('mongodb+srv://urlshort:sawan123@cluster0-t2gej.gcp.mongodb.net/test?retryWrites=true&w=majority', {
-//     useNewUrlParser: true, useUnifiedTopology:true, useCreateIndex:true});
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({extended: false}))
